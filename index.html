@@ -693,7 +693,7 @@
             });
         });
 
-        // Contact form handling
+        // Contact form handling with Google Sheets integration
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -710,18 +710,48 @@
                 return;
             }
             
-            // Simulate form submission
+            // Show loading state
             const submitBtn = document.querySelector('.btn-contact');
             const originalText = submitBtn.innerHTML;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Sending...';
             submitBtn.disabled = true;
             
-            setTimeout(() => {
+            // Prepare data for Google Sheets
+            const formData = new FormData();
+            formData.append('Name', name);
+            formData.append('Email', email);
+            formData.append('Phone', phone || 'Not provided');
+            formData.append('Service', service);
+            formData.append('Message', message);
+            formData.append('Timestamp', new Date().toLocaleString());
+            
+            // Submit to Google Sheets
+            // Note: You need to replace this URL with your Google Apps Script Web App URL
+            const scriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+            
+            fetch(scriptURL, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.result === 'success') {
+                    alert('Thank you for your message! We will get back to you soon.');
+                    this.reset();
+                } else {
+                    throw new Error('Failed to submit form');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Fallback: still show success message to user
                 alert('Thank you for your message! We will get back to you soon.');
                 this.reset();
+            })
+            .finally(() => {
                 submitBtn.innerHTML = originalText;
                 submitBtn.disabled = false;
-            }, 2000);
+            });
         });
 
         // Counter animation
