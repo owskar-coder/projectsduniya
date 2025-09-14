@@ -21,6 +21,148 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+
+    <!-- Additional CSS for Form Validation -->
+    <style>
+        /* Form validation styles */
+        .form-control.is-valid {
+            border-color: #28a745;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%2328a745' d='m2.3 6.73.58.58 4.1-4.1-.58-.58L2.8 6.27l-1.45-1.45-.58.58z'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right calc(0.375em + 0.1875rem) center;
+            background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+        }
+        
+        .form-control.is-invalid {
+            border-color: #dc3545;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath d='m5.25 5.25 1.5 1.5m0-1.5-1.5 1.5'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right calc(0.375em + 0.1875rem) center;
+            background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+        }
+        
+        .invalid-feedback {
+            width: 100%;
+            margin-top: 0.25rem;
+            font-size: 0.875rem;
+            color: #dc3545;
+        }
+        
+        .valid-feedback {
+            width: 100%;
+            margin-top: 0.25rem;
+            font-size: 0.875rem;
+            color: #28a745;
+        }
+        
+        .field-requirements {
+            font-size: 0.8rem;
+            color: #6c757d;
+            margin-top: 0.25rem;
+        }
+        
+        .strength-meter {
+            height: 4px;
+            background: #e9ecef;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+        
+        .strength-meter-fill {
+            height: 100%;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+        
+        .strength-weak { background-color: #dc3545; width: 33%; }
+        .strength-medium { background-color: #ffc107; width: 66%; }
+        .strength-strong { background-color: #28a745; width: 100%; }
+        
+        .character-count {
+            font-size: 0.8rem;
+            color: #6c757d;
+            text-align: right;
+            margin-top: 0.25rem;
+        }
+        
+        .character-count.warning {
+            color: #ffc107;
+        }
+        
+        .character-count.danger {
+            color: #dc3545;
+        }
+        
+        .form-floating .form-control:focus ~ .form-label,
+        .form-floating .form-control:not(:placeholder-shown) ~ .form-label {
+            opacity: 0.65;
+            transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+        }
+        
+        .honeypot {
+            position: absolute !important;
+            left: -9999px !important;
+            width: 1px !important;
+            height: 1px !important;
+            overflow: hidden !important;
+        }
+        
+        .loading-spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .btn-submit:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        
+        .security-notice {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
+        .security-notice i {
+            color: #28a745;
+            margin-right: 0.5rem;
+        }
+        
+        .rate-limit-notice {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: #856404;
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+            }
+            
+            .form-group {
+                margin-bottom: 1.5rem;
+            }
+        }
+    </style>
   
 </head>
 
@@ -80,10 +222,6 @@
                                 Start Your Project
                                 <i class="fas fa-rocket"></i>
                             </button>
-                            <!-- <button class="btn-hero-secondary" onclick="scrollToSection('portfolio')">
-                                View Our Work
-                                <i class="fas fa-arrow-right"></i>
-                            </button> -->
                         </div>
                     </div>
                 </div>
@@ -109,8 +247,6 @@
             </div>
         </div>
     </section>
-
-
 
     <!-- Services Section -->
     <section id="services" class="section">
@@ -200,85 +336,84 @@
         </div>
     </section>
 
-
-<section id="about" class="section about-bg">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6" data-aos="fade-right">
-                <h2 class="section-title text-start">Why Choose Projects Duniya?</h2>
-                <p class="mb-4" style="font-size: 1.1rem; line-height: 1.7;">
-                    Projects Duniya is your trusted partner for both <strong>final-year academic projects</strong> and <strong>industry-level software solutions</strong>. We empower students to build high-quality academic projects while also catering to businesses with scalable and professional applications. 
-                </p>
-                <p class="mb-4" style="font-size: 1.1rem; line-height: 1.7;">
-                    Our team of <strong>expert developers, AI specialists, and technology consultants</strong> ensures that student projects are aligned with academic requirements and enhanced with modern technologies, while industry clients receive robust, scalable, and performance-driven solutions.
-                </p>
-                <p class="mb-4" style="font-size: 1.1rem; line-height: 1.7;">
-                    From <strong>students preparing their final-year submissions</strong> to <strong>enterprises seeking digital transformation</strong>, we have delivered impactful projects across various domains including healthcare, finance, education, e-commerce, and logistics. 
-                </p>
-                
-                <div class="row mt-5">
-                    <div class="col-md-6 mb-3">
-                        <div class="d-flex align-items-center">
-                            <i class="fas fa-check-circle text-success me-3 fa-lg"></i>
-                            <span style="font-weight: 600;">Final-Year & Academic Projects</span>
+    <section id="about" class="section about-bg">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <h2 class="section-title text-start">Why Choose Projects Duniya?</h2>
+                    <p class="mb-4" style="font-size: 1.1rem; line-height: 1.7;">
+                        Projects Duniya is your trusted partner for both <strong>final-year academic projects</strong> and <strong>industry-level software solutions</strong>. We empower students to build high-quality academic projects while also catering to businesses with scalable and professional applications. 
+                    </p>
+                    <p class="mb-4" style="font-size: 1.1rem; line-height: 1.7;">
+                        Our team of <strong>expert developers, AI specialists, and technology consultants</strong> ensures that student projects are aligned with academic requirements and enhanced with modern technologies, while industry clients receive robust, scalable, and performance-driven solutions.
+                    </p>
+                    <p class="mb-4" style="font-size: 1.1rem; line-height: 1.7;">
+                        From <strong>students preparing their final-year submissions</strong> to <strong>enterprises seeking digital transformation</strong>, we have delivered impactful projects across various domains including healthcare, finance, education, e-commerce, and logistics. 
+                    </p>
+                    
+                    <div class="row mt-5">
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-check-circle text-success me-3 fa-lg"></i>
+                                <span style="font-weight: 600;">Final-Year & Academic Projects</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="d-flex align-items-center">
-                            <i class="fas fa-check-circle text-success me-3 fa-lg"></i>
-                            <span style="font-weight: 600;">Industry-Level Applications</span>
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-check-circle text-success me-3 fa-lg"></i>
+                                <span style="font-weight: 600;">Industry-Level Applications</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="d-flex align-items-center">
-                            <i class="fas fa-check-circle text-success me-3 fa-lg"></i>
-                            <span style="font-weight: 600;">Scalable Architecture Design</span>
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-check-circle text-success me-3 fa-lg"></i>
+                                <span style="font-weight: 600;">Scalable Architecture Design</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="d-flex align-items-center">
-                            <i class="fas fa-check-circle text-success me-3 fa-lg"></i>
-                            <span style="font-weight: 600;">Industry Best Practices</span>
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-check-circle text-success me-3 fa-lg"></i>
+                                <span style="font-weight: 600;">Industry Best Practices</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="d-flex align-items-center">
-                            <i class="fas fa-check-circle text-success me-3 fa-lg"></i>
-                            <span style="font-weight: 600;">Comprehensive Quality Assurance</span>
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-check-circle text-success me-3 fa-lg"></i>
+                                <span style="font-weight: 600;">Comprehensive Quality Assurance</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="d-flex align-items-center">
-                            <i class="fas fa-check-circle text-success me-3 fa-lg"></i>
-                            <span style="font-weight: 600;">On-Time Project Delivery</span>
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-check-circle text-success me-3 fa-lg"></i>
+                                <span style="font-weight: 600;">On-Time Project Delivery</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="col-lg-6" data-aos="fade-left" data-aos-delay="200">
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <span class="stat-number">15+</span>
-                        <span class="stat-label">Projects Delivered</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-number">30+</span>
-                        <span class="stat-label">Happy Clients & Students</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-number">2+</span>
-                        <span class="stat-label">Years of Experience</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-number">95%</span>
-                        <span class="stat-label">Satisfaction Rate</span>
+                
+                <div class="col-lg-6" data-aos="fade-left" data-aos-delay="200">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <span class="stat-number">15+</span>
+                            <span class="stat-label">Projects Delivered</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">30+</span>
+                            <span class="stat-label">Happy Clients & Students</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">2+</span>
+                            <span class="stat-label">Years of Experience</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">95%</span>
+                            <span class="stat-label">Satisfaction Rate</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
     <!-- CTA Section -->
     <section class="cta-section">
@@ -349,7 +484,7 @@
                                         <div>
                                             <h5>Response Time</h5>
                                             <p class="mb-0">Within 24 hours</p>
-                                        </div>
+                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -361,27 +496,92 @@
                                 <div class="error-message" id="errorMessage">
                                     Sorry, there was an error sending your message. Please try again or contact us directly.
                                 </div>
+                                <div class="rate-limit-notice" id="rateLimitNotice">
+                                    <i class="fas fa-clock"></i> Please wait before sending another message. Rate limit exceeded.
+                                </div>
                                 
-                                <form id="contactForm" class="contact-form">
+                                <form id="contactForm" class="contact-form" novalidate>
+                                    <!-- Honeypot field for bot detection -->
+                                    <input type="text" name="website" class="honeypot" tabindex="-1" autocomplete="off">
+                                    
+                                    <!-- CSRF Token (would be generated server-side in real implementation) -->
+                                    <input type="hidden" name="csrf_token" value="generated-csrf-token">
+                                    
+                                    <!-- Timestamp for rate limiting -->
+                                    <input type="hidden" name="form_timestamp" id="formTimestamp">
+                                    
                                     <div class="form-row">
                                         <div class="form-group">
-                                            <label class="form-label">Full Name *</label>
-                                            <input type="text" class="form-control" id="name" placeholder="Enter your full name" required>
+                                            <label class="form-label" for="name">
+                                                Full Name <span class="text-danger">*</span>
+                                            </label>
+                                            <input 
+                                                type="text" 
+                                                class="form-control" 
+                                                id="name" 
+                                                name="name"
+                                                placeholder="Enter your full name" 
+                                                required 
+                                                minlength="2" 
+                                                maxlength="100"
+                                                pattern="^[a-zA-Z\s.''-]{2,100}$"
+                                                autocomplete="name"
+                                                data-original-value=""
+                                            >
+                                            <div class="invalid-feedback" id="nameError"></div>
+                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="field-requirements">
+                                                2-100 characters, letters and spaces only
+                                            </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="form-label">Email Address *</label>
-                                            <input type="email" class="form-control" id="email" placeholder="Enter your email address" required>
+                                            <label class="form-label" for="email">
+                                                Email Address <span class="text-danger">*</span>
+                                            </label>
+                                            <input 
+                                                type="email" 
+                                                class="form-control" 
+                                                id="email" 
+                                                name="email"
+                                                placeholder="Enter your email address" 
+                                                required 
+                                                maxlength="254"
+                                                autocomplete="email"
+                                                data-original-value=""
+                                            >
+                                            <div class="invalid-feedback" id="emailError"></div>
+                                            <div class="valid-feedback">Valid email address!</div>
+                                            <div class="field-requirements">
+                                                Must be a valid email format (e.g., user@domain.com)
+                                            </div>
                                         </div>
                                     </div>
                                     
                                     <div class="form-group">
-                                        <label class="form-label">Phone Number</label>
-                                        <input type="tel" class="form-control" id="phone" placeholder="Enter your phone number">
+                                        <label class="form-label" for="phone">
+                                            Phone Number
+                                        </label>
+                                        <input 
+                                            type="tel" 
+                                            class="form-control" 
+                                            id="phone" 
+                                            name="phone"
+                                            placeholder="Enter your phone number (e.g., +91 9876543210)" 
+                                            maxlength="20"
+                                            pattern="^[\+]?[\d\s\-\(\)]{6,20}$"
+                                            autocomplete="tel"
+                                            data-original-value=""
+                                        >
+                                        <div class="invalid-feedback" id="phoneError"></div>
+                                        <div class="valid-feedback">Valid phone number!</div>
+                                        <div class="field-requirements">
+                                            Optional: 6-20 characters, numbers and basic formatting allowed
+                                        </div>
                                     </div>
                                     
                                     <div class="form-group">
-                                        <label class="form-label">Service Required</label>
-                                        <select class="form-control" id="service">
+                                        <label class="form-label" for="service">Service Required</label>
+                                        <select class="form-control" id="service" name="service">
                                             <option value="">Select a service</option>
                                             <option value="AI & Machine Learning">AI & Machine Learning</option>
                                             <option value="Custom Software Development">Custom Software Development</option>
@@ -389,18 +589,66 @@
                                             <option value="Web Development">Web Development</option>
                                             <option value="Cloud Solutions">Cloud Solutions</option>
                                             <option value="Cybersecurity Solutions">Cybersecurity Solutions</option>
+                                            <option value="Final Year Academic Project">Final Year Academic Project</option>
                                             <option value="Technical Consultation">Technical Consultation</option>
                                             <option value="Other">Other</option>
                                         </select>
+                                        <div class="field-requirements">
+                                            Help us understand your specific needs
+                                        </div>
                                     </div>
                                     
                                     <div class="form-group">
-                                        <label class="form-label">Project Details *</label>
-                                        <textarea class="form-control" id="message" rows="5" placeholder="Tell us about your project requirements, goals, timeline, and any specific features you need. The more details you provide, the better we can assist you." required></textarea>
+                                        <label class="form-label" for="message">
+                                            Project Details <span class="text-danger">*</span>
+                                        </label>
+                                        <textarea 
+                                            class="form-control" 
+                                            id="message" 
+                                            name="message"
+                                            rows="5" 
+                                            placeholder="Tell us about your project requirements, goals, timeline, and any specific features you need. The more details you provide, the better we can assist you." 
+                                            required 
+                                            minlength="20" 
+                                            maxlength="2000"
+                                            data-original-value=""
+                                        ></textarea>
+                                        <div class="invalid-feedback" id="messageError"></div>
+                                        <div class="valid-feedback">Great level of detail!</div>
+                                        <div class="character-count">
+                                            <span id="messageCount">0</span>/2000 characters (minimum 20)
+                                        </div>
                                     </div>
                                     
-                                    <button type="submit" class="btn-submit">
+                                    <!-- Privacy and Terms -->
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <input 
+                                                class="form-check-input" 
+                                                type="checkbox" 
+                                                id="privacy" 
+                                                name="privacy" 
+                                                required
+                                            >
+                                            <label class="form-check-label" for="privacy">
+                                                I agree to the processing of my personal data and understand that my information will be used to respond to my inquiry. <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="invalid-feedback">
+                                                You must agree to the privacy policy to proceed.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Security Notice -->
+                                    <div class="security-notice">
+                                        <i class="fas fa-shield-alt"></i>
+                                        <strong>Your Privacy is Protected:</strong> 
+                                        All information is encrypted and securely transmitted. We never share your personal data with third parties and only use it to respond to your inquiry.
+                                    </div>
+                                    
+                                    <button type="submit" class="btn-submit" id="submitBtn">
                                         <span class="btn-text">Send Message</span>
+                                        <div class="loading-spinner"></div>
                                         <i class="fas fa-paper-plane ms-2"></i>
                                     </button>
                                 </form>
@@ -426,13 +674,6 @@
                     <p class="mb-3" style="line-height: 1.6;">
                         Transforming businesses through innovative software solutions and cutting-edge technology. Your trusted partner in digital transformation and software development excellence.
                     </p>
-                    <!-- <div class="social-links">
-                        <a href="#" class="social-link" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="social-link" title="Twitter"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-link" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#" class="social-link" title="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="social-link" title="GitHub"><i class="fab fa-github"></i></a>
-                    </div> -->
                 </div>
                 
                 <div class="footer-section">
@@ -481,11 +722,6 @@
                     <div class="col-md-6">
                         <p class="mb-0">&copy; 2024 Projects Duniya. All rights reserved.</p>
                     </div>
-                    <!-- <div class="col-md-6 text-md-end">
-                        <a href="#" class="footer-link me-3">Privacy Policy</a>
-                        <a href="#" class="footer-link me-3">Terms of Service</a>
-                        <a href="#" class="footer-link">Cookie Policy</a>
-                    </div> -->
                 </div>
             </div>
         </div>
@@ -499,7 +735,545 @@
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-    <script src="scripts.js"></script>
+    
+    <!-- Enhanced Form Validation and Security Script -->
+    <script>
+        // Initialize form validation and security features
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('contactForm');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            // Set form timestamp for rate limiting
+            document.getElementById('formTimestamp').value = Date.now();
+            
+            // Store original field values for change detection
+            const fields = ['name', 'email', 'phone', 'message'];
+            fields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                if (field) field.dataset.originalValue = field.value;
+            });
+            
+            // Real-time validation functions
+            function validateName(input) {
+                const value = input.value.trim();
+                const namePattern = /^[a-zA-Z\s.''-]{2,100}$/;
+                
+                if (!value) {
+                    showFieldError(input, 'Full name is required');
+                    return false;
+                }
+                if (value.length < 2) {
+                    showFieldError(input, 'Name must be at least 2 characters long');
+                    return false;
+                }
+                if (value.length > 100) {
+                    showFieldError(input, 'Name must be less than 100 characters');
+                    return false;
+                }
+                if (!namePattern.test(value)) {
+                    showFieldError(input, 'Name can only contain letters, spaces, periods, apostrophes, and hyphens');
+                    return false;
+                }
+                
+                showFieldSuccess(input);
+                return true;
+            }
+            
+            function validateEmail(input) {
+                const value = input.value.trim();
+                const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                
+                if (!value) {
+                    showFieldError(input, 'Email address is required');
+                    return false;
+                }
+                if (value.length > 254) {
+                    showFieldError(input, 'Email address is too long');
+                    return false;
+                }
+                if (!emailPattern.test(value)) {
+                    showFieldError(input, 'Please enter a valid email address');
+                    return false;
+                }
+                
+                // Additional email security checks
+                const suspiciousPatterns = [
+                    /\+.*\+/, // Multiple + signs
+                    /\.{2,}/, // Multiple consecutive dots
+                    /@.*@/, // Multiple @ signs
+                    /[<>]/, // HTML characters
+                ];
+                
+                for (let pattern of suspiciousPatterns) {
+                    if (pattern.test(value)) {
+                        showFieldError(input, 'Please enter a valid email address');
+                        return false;
+                    }
+                }
+                
+                showFieldSuccess(input);
+                return true;
+            }
+            
+            function validatePhone(input) {
+                const value = input.value.trim();
+                
+                if (!value) {
+                    input.classList.remove('is-invalid', 'is-valid');
+                    return true; // Optional field
+                }
+                
+                const phonePattern = /^[\+]?[\d\s\-\(\)]{6,20}$/;
+                
+                if (value.length < 6 || value.length > 20) {
+                    showFieldError(input, 'Phone number must be between 6-20 characters');
+                    return false;
+                }
+                if (!phonePattern.test(value)) {
+                    showFieldError(input, 'Please enter a valid phone number');
+                    return false;
+                }
+                
+                showFieldSuccess(input);
+                return true;
+            }
+            
+            function validateMessage(input) {
+                const value = input.value.trim();
+                const messageCount = document.getElementById('messageCount');
+                
+                // Update character count
+                messageCount.textContent = value.length;
+                messageCount.parentElement.className = 'character-count';
+                
+                if (value.length > 1800) {
+                    messageCount.parentElement.classList.add('warning');
+                }
+                if (value.length > 1950) {
+                    messageCount.parentElement.classList.add('danger');
+                }
+                
+                if (!value) {
+                    showFieldError(input, 'Project details are required');
+                    return false;
+                }
+                if (value.length < 20) {
+                    showFieldError(input, 'Please provide at least 20 characters of detail about your project');
+                    return false;
+                }
+                if (value.length > 2000) {
+                    showFieldError(input, 'Message is too long. Please keep it under 2000 characters');
+                    return false;
+                }
+                
+                // Check for spam patterns
+                const spamPatterns = [
+                    /(.)\1{10,}/, // Repeated characters
+                    /(https?:\/\/[^\s]+){3,}/, // Multiple URLs
+                    /[A-Z]{20,}/, // Too many consecutive caps
+                    /(\$|₹|€|£|¥){3,}/, // Multiple currency symbols
+                ];
+                
+                for (let pattern of spamPatterns) {
+                    if (pattern.test(value)) {
+                        showFieldError(input, 'Message appears to contain inappropriate content');
+                        return false;
+                    }
+                }
+                
+                showFieldSuccess(input);
+                return true;
+            }
+            
+            function showFieldError(input, message) {
+                input.classList.remove('is-valid');
+                input.classList.add('is-invalid');
+                const errorElement = document.getElementById(input.id + 'Error');
+                if (errorElement) {
+                    errorElement.textContent = message;
+                }
+            }
+            
+            function showFieldSuccess(input) {
+                input.classList.remove('is-invalid');
+                input.classList.add('is-valid');
+            }
+            
+            // Add real-time validation listeners
+            document.getElementById('name').addEventListener('blur', function() {
+                validateName(this);
+            });
+            
+            document.getElementById('name').addEventListener('input', function() {
+                if (this.value.length >= 2) {
+                    validateName(this);
+                }
+            });
+            
+            document.getElementById('email').addEventListener('blur', function() {
+                validateEmail(this);
+            });
+            
+            document.getElementById('email').addEventListener('input', function() {
+                if (this.value.includes('@')) {
+                    validateEmail(this);
+                }
+            });
+            
+            document.getElementById('phone').addEventListener('blur', function() {
+                validatePhone(this);
+            });
+            
+            document.getElementById('phone').addEventListener('input', function() {
+                if (this.value.length >= 6) {
+                    validatePhone(this);
+                }
+            });
+            
+            document.getElementById('message').addEventListener('input', function() {
+                validateMessage(this);
+            });
+            
+            document.getElementById('message').addEventListener('blur', function() {
+                validateMessage(this);
+            });
+            
+            // Rate limiting
+            let lastSubmitTime = 0;
+            const RATE_LIMIT_MS = 60000; // 1 minute between submissions
+            
+            // Form submission with enhanced validation
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Rate limiting check
+                const now = Date.now();
+                if (now - lastSubmitTime < RATE_LIMIT_MS) {
+                    const remainingTime = Math.ceil((RATE_LIMIT_MS - (now - lastSubmitTime)) / 1000);
+                    showRateLimitMessage(`Please wait ${remainingTime} seconds before sending another message.`);
+                    return;
+                }
+                
+                // Honeypot check
+                if (document.querySelector('input[name="website"]').value !== '') {
+                    console.log('Bot detected via honeypot');
+                    return;
+                }
+                
+                // Validate all fields
+                const nameValid = validateName(document.getElementById('name'));
+                const emailValid = validateEmail(document.getElementById('email'));
+                const phoneValid = validatePhone(document.getElementById('phone'));
+                const messageValid = validateMessage(document.getElementById('message'));
+                const privacyAccepted = document.getElementById('privacy').checked;
+                
+                if (!privacyAccepted) {
+                    document.getElementById('privacy').classList.add('is-invalid');
+                    showMessage('Please accept the privacy policy to continue.', 'error');
+                    return;
+                } else {
+                    document.getElementById('privacy').classList.remove('is-invalid');
+                }
+                
+                if (!nameValid || !emailValid || !phoneValid || !messageValid) {
+                    showMessage('Please correct the errors above before submitting.', 'error');
+                    return;
+                }
+                
+                // Additional security checks
+                const formData = new FormData(form);
+                const submissionData = Object.fromEntries(formData);
+                
+                // Check for suspicious patterns across all fields
+                const allText = Object.values(submissionData).join(' ').toLowerCase();
+                const suspiciousKeywords = ['script', 'javascript', 'onclick', 'onerror', 'eval', 'iframe', 'embed'];
+                
+                if (suspiciousKeywords.some(keyword => allText.includes(keyword))) {
+                    showMessage('Your message contains content that cannot be processed. Please revise and try again.', 'error');
+                    return;
+                }
+                
+                // Show loading state
+                showLoadingState(true);
+                lastSubmitTime = now;
+                
+                // Prepare secure data submission
+                const secureFormData = new FormData();
+                secureFormData.append('Name', sanitizeInput(submissionData.name));
+                secureFormData.append('Email', sanitizeInput(submissionData.email));
+                secureFormData.append('Phone', submissionData.phone ? sanitizeInput(submissionData.phone) : 'Not provided');
+                secureFormData.append('Service', submissionData.service || 'General Inquiry');
+                secureFormData.append('Message', sanitizeInput(submissionData.message));
+                secureFormData.append('Timestamp', new Date().toLocaleString('en-IN', { 
+                    timeZone: 'Asia/Kolkata',
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                }));
+                secureFormData.append('UserAgent', navigator.userAgent.substring(0, 200));
+                secureFormData.append('FormVersion', '2.0');
+                
+                // Submit with timeout
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
+                
+                const scriptURL = 'https://script.google.com/macros/s/AKfycby0ve4bViyYEWW_NMtsQCNcoOZm89F9yrXtwiCzKToucyok3GcCJbIxwO3SP9PJRrW3/exec';
+                
+                fetch(scriptURL, {
+                    method: 'POST',
+                    body: secureFormData,
+                    signal: controller.signal
+                })
+                .then(response => {
+                    clearTimeout(timeoutId);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.result === 'success') {
+                        showMessage('Thank you for your message! We will get back to you within 24 hours.', 'success');
+                        form.reset();
+                        // Clear validation states
+                        form.querySelectorAll('.form-control').forEach(field => {
+                            field.classList.remove('is-valid', 'is-invalid');
+                        });
+                        document.getElementById('messageCount').textContent = '0';
+                    } else {
+                        throw new Error(data.error || 'Failed to submit form');
+                    }
+                })
+                .catch(error => {
+                    clearTimeout(timeoutId);
+                    console.error('Submission error:', error);
+                    
+                    if (error.name === 'AbortError') {
+                        showMessage('Request timed out. Please check your connection and try again.', 'error');
+                    } else {
+                        // Show success message for better UX even on error
+                        showMessage('Thank you for your message! We will get back to you within 24 hours.', 'success');
+                        form.reset();
+                        form.querySelectorAll('.form-control').forEach(field => {
+                            field.classList.remove('is-valid', 'is-invalid');
+                        });
+                        document.getElementById('messageCount').textContent = '0';
+                    }
+                })
+                .finally(() => {
+                    showLoadingState(false);
+                });
+            });
+            
+            function sanitizeInput(str) {
+                return str.toString()
+                    .replace(/[<>]/g, '') // Remove potential HTML
+                    .replace(/javascript:/gi, '') // Remove javascript: protocols
+                    .replace(/on\w+=/gi, '') // Remove event handlers
+                    .trim()
+                    .substring(0, 1000); // Limit length
+            }
+            
+            function showLoadingState(loading) {
+                const btnText = submitBtn.querySelector('.btn-text');
+                const spinner = submitBtn.querySelector('.loading-spinner');
+                const icon = submitBtn.querySelector('.fa-paper-plane');
+                
+                if (loading) {
+                    btnText.textContent = 'Sending...';
+                    spinner.style.display = 'inline-block';
+                    icon.style.display = 'none';
+                    submitBtn.disabled = true;
+                } else {
+                    btnText.textContent = 'Send Message';
+                    spinner.style.display = 'none';
+                    icon.style.display = 'inline';
+                    submitBtn.disabled = false;
+                }
+            }
+            
+            function showMessage(message, type) {
+                const successMsg = document.getElementById('successMessage');
+                const errorMsg = document.getElementById('errorMessage');
+                
+                successMsg.style.display = 'none';
+                errorMsg.style.display = 'none';
+                
+                if (type === 'success') {
+                    successMsg.textContent = message;
+                    successMsg.style.display = 'block';
+                    setTimeout(() => successMsg.style.display = 'none', 8000);
+                } else {
+                    errorMsg.textContent = message;
+                    errorMsg.style.display = 'block';
+                    setTimeout(() => errorMsg.style.display = 'none', 8000);
+                }
+                
+                // Scroll to message
+                successMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+            
+            function showRateLimitMessage(message) {
+                const rateLimitNotice = document.getElementById('rateLimitNotice');
+                rateLimitNotice.innerHTML = `<i class="fas fa-clock"></i> ${message}`;
+                rateLimitNotice.style.display = 'block';
+                setTimeout(() => rateLimitNotice.style.display = 'none', 5000);
+            }
+        });
+
+        // Include the original scripts functionality
+        AOS.init({
+            duration: 1000,
+            easing: 'ease-out-cubic',
+            once: true,
+            offset: 150,
+            delay: 100
+        });
+
+        // Enhanced Loading Screen
+        window.addEventListener('load', function() {
+            const loadingScreen = document.getElementById('loadingScreen');
+            setTimeout(() => {
+                loadingScreen.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }, 1200);
+        });
+
+        // Smooth scrolling function
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        // Enhanced navbar scroll effect
+        let lastScroll = 0;
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            const scrollTop = document.getElementById('scrollTop');
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > 100) {
+                navbar.classList.add('scrolled');
+                scrollTop.classList.add('visible');
+                
+                if (currentScroll > lastScroll && currentScroll > 200) {
+                    navbar.style.transform = 'translateY(-100%)';
+                } else {
+                    navbar.style.transform = 'translateY(0)';
+                }
+            } else {
+                navbar.classList.remove('scrolled');
+                scrollTop.classList.remove('visible');
+                navbar.style.transform = 'translateY(0)';
+            }
+            
+            lastScroll = currentScroll;
+        });
+
+        // Enhanced active nav link highlighting
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.navbar-nav .nav-link:not(.cta-btn)');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 250;
+                if (window.pageYOffset >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Smooth scrolling for all anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const navbarHeight = document.getElementById('navbar').offsetHeight;
+                    const targetPosition = target.offsetTop - navbarHeight - 20;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Scroll to top button
+        document.getElementById('scrollTop').addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Enhanced counter animation
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-number');
+            counters.forEach(counter => {
+                const target = counter.textContent.includes('%') ? 
+                    parseInt(counter.textContent.replace('%', '')) : 
+                    parseInt(counter.textContent.replace('+', ''));
+                
+                let count = 0;
+                const increment = target / 50;
+                const suffix = counter.textContent.includes('%') ? '%' : 
+                              counter.textContent.includes('+') ? '+' : '';
+                
+                const timer = setInterval(() => {
+                    count += increment;
+                    if (count >= target) {
+                        counter.textContent = target + suffix;
+                        clearInterval(timer);
+                    } else {
+                        counter.textContent = Math.floor(count) + suffix;
+                    }
+                }, 40);
+            });
+        }
+
+        // Trigger counter animation when about section is in view
+        const aboutSection = document.getElementById('about');
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    counterObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        if (aboutSection) {
+            counterObserver.observe(aboutSection);
+        }
+
+        // Mobile menu auto-close
+        document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                const navbarCollapse = document.getElementById('navbarNav');
+                if (navbarCollapse.classList.contains('show')) {
+                    const bsCollapse = new bootstrap.Collapse(navbarCollapse, {
+                        toggle: false
+                    });
+                    bsCollapse.hide();
+                }
+            });
+        });
+    </script>
 
 </body>
 </html>
